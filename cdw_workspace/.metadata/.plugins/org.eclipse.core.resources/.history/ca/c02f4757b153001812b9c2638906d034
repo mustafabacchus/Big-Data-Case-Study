@@ -1,0 +1,41 @@
+package com.cdw.dao;
+
+import java.sql.SQLException;
+
+import com.cdw.model.Transaction;
+import com.cdw.resources.Queries;
+
+public class TransactionDAO extends AbstractDAO{
+	
+	public Transaction getTranByZip (String zip, int month, int year) {
+		Transaction  transaction = null;
+		establishConnection();
+		String query = Queries.Get_Tran_By_ZIP;
+
+		try {
+			state = conn.prepareStatement(query);
+			state.setString(1, zip);
+			state.setInt(1, month);
+			state.setInt(1, year);
+			result = state.executeQuery();
+			
+			if (result.next()) {
+				transaction = new Transaction();
+				transaction.setTranID(result.getInt(1));
+				transaction.setDay(result.getInt(2));
+				transaction.setMonth(result.getInt(3));
+				transaction.setYear(result.getInt(4));
+				transaction.setCreditNo(result.getString(5));
+				transaction.setSsn(result.getInt(6));
+				transaction.setBranchCode(result.getInt(7));
+				transaction.setTranType(result.getString(8));
+				transaction.setTranVal(result.getDouble(9));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return transaction;
+	}
+
+
+}

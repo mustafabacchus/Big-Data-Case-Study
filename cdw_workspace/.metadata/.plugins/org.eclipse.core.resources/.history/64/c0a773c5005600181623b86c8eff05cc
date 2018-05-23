@@ -1,0 +1,7 @@
+ driver = com.mysql.cj.jdbc.Driver
+ #SSL disabled on URL
+ url = jdbc:mysql://localhost/cdw_sapp?useSSL=false
+ user = root
+ password = password
+ 
+# root@localhost:3306

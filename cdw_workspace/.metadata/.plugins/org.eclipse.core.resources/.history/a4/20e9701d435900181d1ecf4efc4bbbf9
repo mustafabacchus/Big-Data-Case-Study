@@ -1,0 +1,81 @@
+package com.cdw.runner;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public abstract class Main {
+	
+	public static void main(String[] args) throws IOException  {
+		while (true) {
+			CustomerRunner cr = new CustomerRunner();
+			TransactionRunner tr = new TransactionRunner();
+			
+			System.out.println("ACTIONS AVAILABLE:");
+			//1.1.1
+			System.out.println("1. Display the transactions made by customers living in a given zipcode for a given month and year.");
+			System.out.println("2. Display the number and total values of transactions for a given type.");
+			System.out.println("3. Display the number and total values of transactions for branches in a given state.");
+			//1.1.2
+			System.out.println("4. Display the existing account details of a customer.");
+			System.out.println("5. Modify the existing account details of a customer.");
+			System.out.println("6. Generate monthly bill for a credit card number for a given month and year.");
+			System.out.println("7. Display the transactions made by a customer between two dates.");
+			System.out.println();
+			Scanner scan = new Scanner(System.in);
+			System.out.print("SELECT AN ACTION. ENTER '0' TO QUIT: ");
+			String sel = scan.next();
+			
+			
+			switch (sel) {
+			case "0":
+				System.out.println("GOODBYE.");
+				scan.close();
+				System.exit(0);
+			case "1":
+				cr.tranByZip();
+				break;
+			case "2":
+				cr.tranSumByTranType();
+				break;
+			case "3":
+				cr.tranSumByState();
+				break;
+			case "4":
+				tr.customerBySSN();
+				break;
+			case "5":
+				tr.modifyCustomer();
+				break;
+			case "6":
+				tr.billByDate();
+				break;
+			case "7":
+				tr.sumByDate();
+				break;
+			default :
+				System.out.println("NOT AN ACTION.");
+			}
+	
+			
+			System.out.println();
+			System.out.println();
+		}//end of while loop
+	}
+	
+	
+	String output = ""; final String del = ",";
+	public void export(String output) throws IOException {
+		Date date = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy hh-mm-ss");
+		String filename = "output_" + dateFormat.format(date) + ".csv";
+		
+		FileWriter fw = new FileWriter(filename);
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(output); bw.close();
+		System.out.println("FILE EXPORTED.");
+	}
+}

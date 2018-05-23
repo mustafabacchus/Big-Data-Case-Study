@@ -1,0 +1,54 @@
+package com.cdw.dao;
+
+import java.sql.SQLException;
+
+import com.cdw.model.Customer;
+import com.cdw.resources.Queries;
+
+public class CustomerDAO extends AbstractDAO {
+	
+	public Customer getCustomerBySSN (int ssn){
+		Customer customer = null;
+		establishConnection();
+		String query = Queries.GET_CUSTOMER_QUERY_BY_SSN;
+		try {
+			state = conn.prepareStatement(query);
+			state.setInt(1, ssn);
+			
+			result = state.executeQuery();
+			if (result.next()){
+				customer = new Customer();
+				String fName = result.getString(1);
+				String mName = result.getString(2);
+				String lName = result.getString(3);
+				int social = result.getInt(4);
+				String creditNo = result.getString(5);
+				String aptNo = result.getString(6);
+				String street = result.getString(7);
+				String city = result.getString(8);
+				String state = result.getString(9);
+				String country = result.getString(10);
+				String zip = result.getString(11);
+				int phone = result.getInt(12);
+				String email = result.getString(13);
+				
+				customer.setfName(fName);
+				customer.setmName(mName);
+				customer.setlName(lName);
+				customer.setSsn(social);
+				customer.setCreditNo(creditNo);
+				customer.setAptNo(aptNo);
+				customer.setStreet(street);
+				customer.setCity(city);
+				customer.setState(state);
+				customer.setCountry(country);
+				customer.setZip(zip);
+				customer.setPhone(phone);
+				customer.setEmail(email);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return customer;
+	}
+}

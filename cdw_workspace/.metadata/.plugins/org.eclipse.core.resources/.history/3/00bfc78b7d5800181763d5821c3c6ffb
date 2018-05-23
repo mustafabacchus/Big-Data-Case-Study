@@ -1,0 +1,63 @@
+package com.cdw.runner;
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		while (true) {
+			CustomerRunner cust = new CustomerRunner();
+			TransactionRunner tran = new TransactionRunner();
+			
+			System.out.println("ACTIONS AVAILABLE:");
+			//1.1.1
+			System.out.println("1. Display the transactions made by customers living in a given zipcode for a given month and year.");
+			System.out.println("2. Display the number and total values of transactions for a given type.");
+			System.out.println("3. Display the number and total values of transactions for branches in a given state.");
+			//1.1.2
+			System.out.println("4. Display the existing account details of a customer.");
+			System.out.println("5. Modify the existing account details of a customer.");
+			System.out.println("6. Generate monthly bill for a credit card number for a given month and year.");
+			System.out.println("7. Display the transactions made by a customer between two dates.");
+			System.out.println();
+			Scanner scan = new Scanner(System.in);
+			System.out.print("SELECT AN ACTION. ENTER '0' TO QUIT: ");
+			String sel = scan.next();
+			
+			
+			switch (sel) {
+			case "0":
+				System.out.println("GOODBYE.");
+				scan.close();
+				System.exit(0);
+			case "1":
+				cust.tranByZip();
+				break;
+			case "2":
+				cust.tranSumByTranType();
+				break;
+			case "3":
+				cust.tranSumByState();
+				break;
+			case "4":
+				tran.customerBySSN();
+				break;
+			case "5":
+				tran.modifycustomer();
+				break;
+			case "6":
+				tran.billByDate();
+				break;
+			case "7":
+				tran.sumByDate();
+				break;
+			default :
+				System.out.println("NOT An ACTION.");
+			}
+	
+			
+			System.out.println();
+			System.out.println();
+		}//end of while loop
+	}
+}

@@ -1,0 +1,15 @@
+package com.cdw.resources;
+
+public class Queries {
+	public final static String GET_CUSTOMER_QUERY_BY_SSN = 
+			"select * from CDW_SAPP_CUSTOMER where ssn = ?";
+	
+	public final static String Get_Tran_By_ZIP = 
+			"select cc.transaction_id, cc.day, cc.month, cc.year, cc.credit_card_no, cc.cust_ssn, cc.branch_code, cc.transaction_type, cc.transaction_value "
+			+ "from cdw_sapp_creditcard cc join cdw_sapp_customer c on cc.cust_ssn = c.ssn "
+			+ "where c.cust_zip = ? and cc.month = ? and cc.year = ? order by cc.day desc";
+	
+	public final static String GET_TRAN_SUM_BY_TRAN_TYPE =
+			"select transaction_type, sum(transaction_value) from cdw_sapp_creditcard where transaction_type = ? group by transaction_type";
+	
+}

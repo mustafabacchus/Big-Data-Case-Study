@@ -1,0 +1,47 @@
+package com.cdw.dao;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+
+public abstract class AbstractDAO {
+
+	protected Connection conn = null;
+	protected PreparedStatement state = null;
+	protected ResultSet result = null;
+	
+	protected void establishConnection(){
+		try {
+			Properties prop = new Properties();
+			FileInputStream fs = new FileInputStream(
+				this.getClass().getClassLoader()
+				.getResource("com/cdw/resources/db.properties").getFile()
+				);
+			prop.load(fs);
+			String driver = prop.getProperty("driver");
+			String url = prop.getProperty("url");
+			String user = prop.getProperty("user");
+			//String password = prop.getProperty("password");
+			
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, prop.getProperty("user"), "password");
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+
+	protected void closeConnetion(){
+		if (conn != null){
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}

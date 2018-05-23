@@ -1,0 +1,247 @@
+package com.cdw.runner;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import com.cdw.dao.AbstractDAO;
+import com.cdw.dao.CustomerDAO;
+import com.cdw.dao.TransactionDAO;
+import com.cdw.model.Customer;
+import com.cdw.model.Transaction;
+
+public class Runner extends AbstractDAO {
+	public static void main(String[] args) {
+		System.out.println("ACTIONS AVAILABLE:");
+		//1.1.1
+		System.out.println("1. Display the transactions made by customers living in a given zipcode for a given month and year.");
+		System.out.println("2. Display the number and total values of transactions for a given type.");
+		System.out.println("3. Display the number and total values of transactions for branches in a given state.");
+		//1.1.2
+		System.out.println("4. Display the existing account details of a customer.");
+		System.out.println("5. Modify the existing account details of a customer.");
+		System.out.println("6. Generate monthly bill for a credit card number for a given month and year.");
+		System.out.println("7. Display the transactions made by a customer between two dates.");
+		System.out.println();
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Select an action: ");
+		int sel = scan.nextInt();
+		
+		
+		//1.1.1 (1)
+		if (sel == 1) {
+			System.out.print("Enter a Zipcode: ");
+			String zip = scan.next();
+			System.out.print("Enter a Month: ");
+			int month = scan.nextInt();
+			System.out.print("Enter a Year: ");
+			int year = scan.nextInt();
+			System.out.println();
+			
+			//TEST DATA		Zip: 39120 Month: 9 Year: 2018
+			TransactionDAO tDAO = new TransactionDAO();
+			ArrayList<Transaction> tran = tDAO.getTranByZip(zip, month, year);
+			for (Transaction n : tran) {
+				System.out.println("ID: " + n.getTranID());
+				System.out.println("Day: " + n.getDay());
+				System.out.println("Month: " + n.getMonth());
+				System.out.println("Year: " + n.getYear());
+				System.out.println("Credit NO: " + n.getCreditNo());
+				System.out.println("SSN: " + n.getSsn());
+				System.out.println("Branch Code: " + n.getBranchCode());
+				System.out.println("Transaction Type: " + n.getTranType());
+				System.out.println("Transaction Value: " + n.getTranVal());
+				System.out.println();
+			}
+		}
+		
+		
+		//1.1.1 (2)
+		if (sel == 2) {
+			System.out.print("Enter a Transaction Type: ");
+			String type = scan.next();
+			System.out.println();
+			
+			//TEST DATA		Type: Gas
+			TransactionDAO tDAO = new TransactionDAO();
+			Transaction tran = tDAO.getTranSumByTranType(type);
+			System.out.println("Number of Transactions: " + tran.getCount());
+			System.out.println("Total Value: " + tran.getTranVal());
+		}
+		
+		
+		//1.1.1 (3)
+		if (sel == 3) {
+			System.out.print("Enter a State Abbreviation: ");
+			String state = scan.next().toUpperCase();
+			System.out.println();
+			
+			
+			//TEST DATA		State: IL,il
+			TransactionDAO tDAO = new TransactionDAO();
+			ArrayList<Transaction> tran = tDAO.getTranSumByState(state);
+			for (Transaction n : tran) {
+				System.out.println("Bank Name: " + n.getTranType());
+				System.out.println("Number of Transactions: " + n.getCount());
+				System.out.println("Total Value: " + n.getTranVal());
+				System.out.println();
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		//1.1.2 (1)
+		if (sel == 4) {
+			System.out.print("Enter a Customer SSN: ");
+			int ssn = scan.nextInt();
+			System.out.println();
+			
+			//TEST DATA		SSN: 123457519
+			CustomerDAO cDAO = new CustomerDAO();
+			Customer cust = cDAO.getCustomerBySSN(ssn);
+			System.out.println("First Name: " + cust.getfName());
+			System.out.println("Middle Name: " + cust.getmName());
+			System.out.println("Last Name: " + cust.getlName());
+			System.out.println("SSN: " + cust.getSsn());
+			System.out.println("Credit NO: " + cust.getCreditNo());
+			System.out.println("APT NO: " + cust.getAptNo());
+			System.out.println("Street: " + cust.getStreet());
+			System.out.println("City: " + cust.getStreet());
+			System.out.println("State: " + cust.getState());
+			System.out.println("Country: " + cust.getCountry());
+			System.out.println("Zip: " +  cust.getZip());
+			System.out.println("Phone: " + cust.getPhone());
+			System.out.println("Email: " + cust.getEmail());
+		}
+		
+		
+		
+		//1.1.2 (2)
+		if (sel == 5) {
+			System.out.print("Enter Customer SSN: ");
+			int ssn = scan.nextInt();
+			System.out.println();
+			
+			//TEST DATA 	SSN: 123454839
+			//Print out customer current info
+			System.out.println("CURRENT INFO");
+			CustomerDAO oCDAO = new CustomerDAO();
+			Customer oCust = oCDAO.getCustomerBySSN(ssn);
+			System.out.println("First Name: " + oCust.getfName());
+			System.out.println("Middle Name: " + oCust.getmName());
+			System.out.println("Last Name: " + oCust.getlName());
+			System.out.println("SSN: " + oCust.getSsn());
+			System.out.println("Credit NO: " + oCust.getCreditNo());
+			System.out.println("APT NO: " + oCust.getAptNo());
+			System.out.println("Street: " + oCust.getStreet());
+			System.out.println("City: " + oCust.getCity());
+			System.out.println("State: " + oCust.getState());
+			System.out.println("Country: " + oCust.getCountry());
+			System.out.println("Zip: " +  oCust.getZip());
+			System.out.println("Phone: " + oCust.getPhone());
+			System.out.println("Email: " + oCust.getEmail());
+			System.out.println();
+			
+			//User input changes for customer
+			System.out.print("Change for First Name: "); String fName = scan.next(); if (fName.equals("0")) fName = oCust.getfName();
+			System.out.print("Change for Middle Name: "); String mName = scan.next(); if (mName.equals("0")) mName = oCust.getmName();
+			System.out.print("Change for Last Name: "); String lName = scan.next(); if (lName.equals("0")) lName = oCust.getlName();
+			System.out.print("Change for Apt NO: "); String apt = scan.next(); if (apt.equals("0")) apt = oCust.getAptNo();
+			System.out.print("Change for Street: "); String street = scan.next(); if (street.equals("0")) street = oCust.getStreet();
+			System.out.print("Change for City: "); String city = scan.next(); if (city.equals("0")) city = oCust.getCity();
+			System.out.print("Change for State: "); String st = scan.next(); if (st.equals("0")) st = oCust.getState();
+			System.out.print("Change for Country: "); String country = scan.next(); if (country.equals("0")) country = oCust.getCountry();
+			System.out.print("Change for Phone: "); int phone = scan.nextInt(); if (phone == 0) phone = oCust.getPhone();
+			System.out.print("Change for Email: "); String email = scan.next(); if (email.equals("0")) email = oCust.getEmail();
+			
+			//Cancel changes and terminate
+			System.out.println();
+			System.out.print("Would you like to commit the above changes? (y/n): ");
+			if (scan.next().toLowerCase().equals("n")) {System.out.println("CHANGES CANCELED."); System.exit(0);}
+			else {
+			//Modify customer info
+			CustomerDAO mCDAO = new CustomerDAO();
+			Customer mCust = mCDAO.modifyCustomer(fName, mName, lName, apt, street, city, st, country, phone, email, ssn);
+			
+			//Print modified customer
+			System.out.println();
+			System.out.print("MODIFIED CUSTOMER:");
+			CustomerDAO cDAO = new CustomerDAO();
+			Customer cust = mcCDAO.getCustomerBySSN(ssn);
+			System.out.println("First Name: " + cust.getfName());
+			System.out.println("Middle Name: " + cust.getmName());
+			System.out.println("Last Name: " + cust.getlName());
+			System.out.println("SSN: " + cust.getSsn());
+			System.out.println("Credit NO: " + cust.getCreditNo());
+			System.out.println("APT NO: " + cust.getAptNo());
+			System.out.println("Street: " + cust.getStreet());
+			System.out.println("City: " + cust.getCity());
+			System.out.println("State: " + cust.getState());
+			System.out.println("Country: " + cust.getCountry());
+			System.out.println("Zip: " +  cust.getZip());
+			System.out.println("Phone: " + cust.getPhone());
+			System.out.println("Email: " + cust.getEmail());
+			
+			}
+		}
+		
+		
+		
+		//1.1.2 (3)
+		if (sel == 6) {
+			System.out.print("Enter a Card NO: ");
+			String card = scan.next();
+			System.out.print("Enter a Month: ");
+			int month = scan.nextInt();
+			System.out.print("Enter a Year: ");
+			int year = scan.nextInt();
+			System.out.println();
+			
+			//TEST DATA 	Card: 4210653349028689 Month: 1 Year: 2018
+			CustomerDAO cDAO = new CustomerDAO();
+			Customer cust = cDAO.getCreditBillByMonthYear(card, month, year);
+			System.out.println("Bill: " + cust.getSum());
+		}
+		
+		
+		
+		//1.1.2 (4)
+		if (sel == 7) {
+			System.out.print("Enter a Customer SSN: ");
+			int ssn = scan.nextInt();
+			System.out.print("Enter 1st Date DD/MM/YYYY: ");
+			String[] date1 = scan.next().split("/");
+			int day1 = Integer.valueOf(date1[0]);
+			int month1 = Integer.valueOf(date1[1]);
+			int year1 = Integer.valueOf(date1[2]);
+			System.out.print("Enter 2nd Date DD/MM/YYYY: ");
+			String[] date2 = scan.next().split("/");
+			int day2 = Integer.valueOf(date2[0]);
+			int month2 = Integer.valueOf(date2[1]);
+			int year2 = Integer.valueOf(date2[2]);
+			System.out.println();
+			
+			
+			//TEST DATA SSN: 123454839 1/3/2018 
+			CustomerDAO tDAO = new CustomerDAO();
+			ArrayList<Transaction> tran = tDAO.getTranByCustDate(ssn, day1, day2, month1, month2, year1, year2);
+			for (Transaction n: tran) {
+				System.out.println("Transaction ID: " + n.getTranID());
+				System.out.println("Day: " + n.getDay());
+				System.out.println("Month: " + n.getMonth());
+				System.out.println("Year: " + n.getYear());
+				System.out.println("Credit NO: " + n.getCreditNo());
+				System.out.println("Branch Code: " + n.getBranchCode());
+				System.out.println("Transaction Type: " + n.getTranType());
+				System.out.println("Transaction Value: " + n.getTranVal());
+				System.out.println();
+			}
+		}
+		
+		
+		scan.close();
+	} //end of main
+}
