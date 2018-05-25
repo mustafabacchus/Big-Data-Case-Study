@@ -1,0 +1,81 @@
+CREATE TABLE temp_branch (col_val String);
+LOAD DATA INPATH '/user/maria_dev/Credit_Card_System/cdw_sapp_branch/part-m-00000' OVERWRITE INTO TABLE temp_branch;
+CREATE TABLE CDW_SAPP_D_BRANCH (BRANCH_CODE tinyint, BRANCH_NAME varchar(25), 
+				BRANCH_STREET varchar(30),BRANCH_CITY varchar(30),
+				BRANCH_STATE varchar(30), BRANCH_ZIP int, 
+				BRANCH_PHONE varchar(12), LAST_UPDATED timestamp);
+INSERT OVERWRITE TABLE CDW_SAPP_D_BRANCH
+SELECT
+  regexp_extract(col_val, '^(?:([^,]*),?){1}', 1) BRANCH_CODE,
+  regexp_extract(col_val, '^(?:([^,]*),?){2}', 1) BRANCH_NAME,
+  regexp_extract(col_val, '^(?:([^,]*),?){3}', 1) BRANCH_STREET,
+  regexp_extract(col_val, '^(?:([^,]*),?){4}', 1) BRANCH_CITY,
+  regexp_extract(col_val, '^(?:([^,]*),?){5}', 1) BRANCH_STATE,
+  regexp_extract(col_val, '^(?:([^,]*),?){6}', 1) BRANCH_ZIP,
+  regexp_extract(col_val, '^(?:([^,]*),?){7}', 1) BRANCH_PHONE,
+  regexp_extract(col_val, '^(?:([^,]*),?){8}', 1) LAST_UPDATED
+from temp_branch;
+
+
+
+
+CREATE TABLE temp_creditcard (col_val String);
+LOAD DATA INPATH '/user/maria_dev/Credit_Card_System/cdw_sapp_creditcard/part-m-00000' OVERWRITE INTO TABLE temp_creditcard;
+CREATE TABLE CDW_SAPP_D_CREDITCARD (TRANSACTION_ID bigint, CUST_CC_NO string, TIMEID varchar(8),
+				    CUST_SSN int, BRANCH_CODE tinyint, 
+				    TRANSACTION_TYPE varchar(30),
+				    TRANSACTION_VALUE decimal(20, 3));
+INSERT OVERWRITE TABLE CDW_SAPP_D_CREDITCARD
+SELECT
+  regexp_extract(col_val, '^(?:([^,]*),?){1}', 1) TRANSACTION_ID,
+  regexp_extract(col_val, '^(?:([^,]*),?){2}', 1) CUST_CC_NO,
+  regexp_extract(col_val, '^(?:([^,]*),?){3}', 1) TIMEID,
+  regexp_extract(col_val, '^(?:([^,]*),?){4}', 1) CUST_SSN,
+  regexp_extract(col_val, '^(?:([^,]*),?){5}', 1) BRANCH_CODE,
+  regexp_extract(col_val, '^(?:([^,]*),?){6}', 1) TRANSCATION_TYPE,
+  regexp_extract(col_val, '^(?:([^,]*),?){7}', 1) TRANSACTION_VALUE
+from temp_creditcard;
+
+
+
+
+CREATE TABLE temp_time (col_val String);
+LOAD DATA INPATH '/user/maria_dev/Credit_Card_System/cdw_sapp_time/part-m-00000' OVERWRITE INTO TABLE temp_time;
+CREATE TABLE CDW_SAPP_D_TIME (TIMEID varchar(8), DAY tinyint, MONTH tinyint,
+			      QUARTER varchar(9), YEAR smallint);
+INSERT OVERWRITE TABLE CDW_SAPP_D_TIME
+SELECT
+  regexp_extract(col_val, '^(?:([^,]*),?){1}', 1) TIMEID,
+  regexp_extract(col_val, '^(?:([^,]*),?){2}', 1) DAY,
+  regexp_extract(col_val, '^(?:([^,]*),?){3}', 1) MONTH,
+  regexp_extract(col_val, '^(?:([^,]*),?){4}', 1) QUARTER,
+  regexp_extract(col_val, '^(?:([^,]*),?){5}', 1) YEAR
+from temp_time;
+
+
+
+
+CREATE TABLE temp_customer (col_val String);
+LOAD DATA INPATH '/user/maria_dev/Credit_Card_System/cdw_sapp_customer/part-m-00000' OVERWRITE INTO TABLE temp_customer;
+CREATE TABLE CDW_SAPP_D_CUSTOMER (CUST_SSN int, CUST_F_NAME varchar(40), CUST_M_NAME varchar(40),
+				  CUST_L_NAME varchar(40), CUST_CC_NO string,
+				  CUST_STREET varchar(38), CUST_CITY varchar(30),
+				  CUST_STATE varchar(30), CUST_COUNTRY varchar(30),
+				  CUST_ZIP int, CUST_PHONE varchar(8), CUST_EMAIL varchar(40),
+				  LAST_UPDATED timestamp);
+INSERT OVERWRITE TABLE CDW_SAPP_D_CUSTOMER
+SELECT
+  regexp_extract(col_val, '^(?:([^,]*),?){1}', 1) CUST_SSN,
+  regexp_extract(col_val, '^(?:([^,]*),?){2}', 1) CUST_F_NAME,
+  regexp_extract(col_val, '^(?:([^,]*),?){3}', 1) CUST_M_NAME,
+  regexp_extract(col_val, '^(?:([^,]*),?){4}', 1) CUST_L_NAME,
+  regexp_extract(col_val, '^(?:([^,]*),?){5}', 1) CUST_CC_NO,
+  regexp_extract(col_val, '^(?:([^,]*),?){6}', 1) CUST_STREET,
+  regexp_extract(col_val, '^(?:([^,]*),?){7}', 1) CUST_CITY,
+  regexp_extract(col_val, '^(?:([^,]*),?){8}', 1) CUST_STATE,
+  regexp_extract(col_val, '^(?:([^,]*),?){9}', 1) CUST_COUNTRY,
+  regexp_extract(col_val, '^(?:([^,]*),?){10}', 1) CUST_ZIP,
+  regexp_extract(col_val, '^(?:([^,]*),?){11}', 1) CUST_PHONE,
+  regexp_extract(col_val, '^(?:([^,]*),?){12}', 1) CUST_EMAIL,
+  regexp_extract(col_val, '^(?:([^,]*),?){13}', 1) LAST_UPDATED
+from temp_customer;
