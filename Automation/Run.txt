@@ -1,0 +1,1 @@
+oozie job -oozie http://localhost:11000/oozie -config /root/Desktop/oozie/2.2.3/job.properties -run

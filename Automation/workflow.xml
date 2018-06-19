@@ -1,0 +1,93 @@
+<workflow-app xmlns = "uri:oozie:workflow:0.4" name = "2.2.3-load-work">
+	<global>
+		<job-tracker>${jobTracker}</job-tracker>
+		<name-node>${nameNode}</name-node>
+		<configuration>
+			<property>
+				<name>mapred.job.queue.name</name>
+				<value>${queueName}</value>
+			</property>
+		</configuration>
+	</global>
+	<start to = "start-metastore"/>
+
+
+<!--START METASTORE-->
+<!--Deletes destination folder (Credit_Card_System)-->
+
+	<action name = "start-metastore">
+		<sqoop xmlns = "uri:oozie:sqoop-action:0.4">
+			<prepare>
+				<delete path="${nameNode}/user/maria_dev/Credit_Card_System/"/>
+			</prepare>
+			<command>metastore</command>
+		</sqoop>
+		<ok to="extract-branch"/>
+		<error to="fail"/>
+	</action>
+
+
+
+<!--EXTRACTIONS-->
+
+	<action name = "extract-branch">
+		<sqoop xmlns = "uri:oozie:sqoop-action:0.4">
+			<command>job --meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop --exec exAllBranch</command>
+			<archive>/user/oozie/share/lib/lib_20161025075203/sqoop/java-json.jar#java-json.jar</archive>
+		</sqoop>
+		<ok to="extract-creditcard"/>
+		<error to="fail"/>
+	</action>
+
+
+	<action name = "extract-creditcard">
+		<sqoop xmlns = "uri:oozie:sqoop-action:0.4">
+			<command>job --meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop --exec exAllCC</command>
+			<archive>/user/oozie/share/lib/lib_20161025075203/sqoop/java-json.jar#java-json.jar</archive>
+		</sqoop>
+		<ok to="extract-time"/>
+		<error to="fail"/>
+	</action>
+
+
+	<action name = "extract-time">
+		<sqoop xmlns = "uri:oozie:sqoop-action:0.4">
+			<command>job --meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop --exec exAllTime</command>
+			<archive>/user/oozie/share/lib/lib_20161025075203/sqoop/java-json.jar#java-json.jar</archive>
+		</sqoop>
+		<ok to="extract-customer"/>
+		<error to="fail"/>
+	</action>
+
+
+	<action name = "extract-customer">
+		<sqoop xmlns = "uri:oozie:sqoop-action:0.4">
+			<command>job --meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop --exec exAllCust</command>
+			<archive>/user/oozie/share/lib/lib_20161025075203/sqoop/java-json.jar#java-json.jar</archive>
+		</sqoop>
+		<ok to="load-hive"/>
+		<error to="fail"/>
+	</action>
+
+
+
+<!--LOAD HIVE-->
+<!--Creates database if not exists and overwrites existing records-->
+
+	<action name = "load-hive">
+		<hive xmlns = "uri:oozie:hive-action:0.4">
+			<script>${nameNode}/user/maria_dev/load_hive/load_hive.sql</script>
+		</hive>
+		<ok to="end" />
+		<error to="fail" />
+	</action>
+
+
+
+<!--END-->
+
+	<kill name="fail">
+		<message>FAIL, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+	</kill>
+	<end name="end"/>
+</workflow-app>

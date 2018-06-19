@@ -1,0 +1,5 @@
+#RUN SELL SCRIPT
+1. chmod 775 /root/Desktop/oozie/create-inc-jobs.sh
+2. ./root/Desktop/oozie/create-inc-jobs.sh
+
+

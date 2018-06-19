@@ -1,0 +1,16 @@
+<!-- FREQUENCY FORMAT	mm(freq) hh-hh ? * DOW-DOW	[DOW-Day of Week (1-7 SUN-SAT)]-->
+<!-- TIME FORMAT	YYYY-MM-DDThh:mm:ssZ	(Z indiactes timezone if specified) -->
+<coordinator-app xmlns = "uri:oozie:coordinator:0.2" name = "2.2.4-load-coord" 
+	frequency = "0/20 8-18 ? * 2-6" start = "2018-04-02T08:00Z" end = "2025-03-29T18:00Z" timezone = "America/New_York">
+	<controls>
+		<timeout>15</timeout>
+		<concurrency>1</concurrency>
+		<execution>FIFO</execution>
+		<throttle>1</throttle>
+	</controls>
+	<action>
+		<workflow>
+		<app-path>${nameNode}/user/maria_dev/oozie/2.2.4/workflow.xml</app-path>
+		</workflow>
+	</action>
+</coordinator-app>

@@ -1,0 +1,10 @@
+USE cdw_sapp
+
+SELECT cc.transaction_type as `Type`, 
+t.quarter as `Quarter`,
+sum(cc.transaction_value) as `Total Value`
+FROM cdw_sapp_d_creditcard cc
+JOIN cdw_sapp_d_time t
+ON (t.timeid = cc.timeid)
+WHERE t.year = '2018'
+GROUP BY cc.transaction_type, t.quarter;

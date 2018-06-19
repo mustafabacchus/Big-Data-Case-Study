@@ -1,9 +1,0 @@
-package com.cdw.resources;
-
-public class Queries {
-	public final static String GET_CUSTOMER_QUERY_BY_SSN = 
-			"select * from CDW_SAPP_CUSTOMER where ssn = ?";
-	
-	//public final static String 
-	
-}

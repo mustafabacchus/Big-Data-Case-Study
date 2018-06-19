@@ -1,4 +1,0 @@
- driver = com.mysql.cj.jdbc.Driver
- url = jdbc:mysql://localhost/cdw_sapp
- user = root
- password = password

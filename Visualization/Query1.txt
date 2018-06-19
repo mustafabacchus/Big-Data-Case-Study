@@ -1,0 +1,10 @@
+USE cdw_sapp;
+
+SELECT b.branch_zip as `Branch Zip`, 
+sum(cc.transaction_value) as `Total Value`
+FROM cdw_sapp_d_branch b
+JOIN cdw_sapp_d_creditcard cc
+ON (b.branch_code = cc.branch_code)
+GROUP BY b.branch_zip
+ORDER BY `Total Value`DESC
+LIMIT 20;
