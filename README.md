@@ -7,7 +7,7 @@
 ##### Module 3: 
 ###### Transform the data to required specifications.
 ##### Module 4: 
-###### Load the transformaed data into HDFS.
+###### Load the transformed data into HDFS.
 ##### Module 5: 
 ###### Automate the proccess of warehousing using Oozie.
 ##### Module 6: 
