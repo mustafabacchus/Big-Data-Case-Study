@@ -1,4 +1,4 @@
-## **Big Data Case Study: Complete ETL** 
+# **Big Data Case Study: Complete ETL** 
 ##### _Implementing: Hadoop, Horton Works, Apache Ambari, Hive, Oozie, Data Warehosuing, Java, JDBC, MySQL Server/Workbench._
 ##### **_Complete setup and execution instructions found in README.docx._**
 ## **Summarized Explanation of Modules Developed:**
