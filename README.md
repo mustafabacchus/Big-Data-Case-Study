@@ -2,8 +2,7 @@
 ##### _Implementing: Hadoop, Horton Works, Apache Ambari, Hive, Oozie, Data Warehosuing, Java, JDBC, MySQL Server/Workbench._
 ##### **_Complete setup and execution instructions found in README.docx._**
 ## **Summarized Explanation of Modules Developed:**
-##### **1 & 2.** 
-##### Develop a reporting system in Java to display results of specfic queries based on transactional and customer data of a credit card system database.
+##### **1 & 2.** Develop a reporting system in Java to display results of specfic queries based on transactional and customer data of a credit card system database.
 ##### **3.** Transform the data to required specifications.
 ##### **4.** Load the transformed data into HDFS.
 ##### **5.** Automate the proccess of warehousing using Oozie.
